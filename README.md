@@ -1,1 +1,1 @@
-"# imgur-scraper" 
+# imgur-scraper
