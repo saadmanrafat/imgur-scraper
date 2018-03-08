@@ -4,7 +4,6 @@ Get Imgur's viral posts from a given date. Not authentication required. Implemen
 # Usage
 ```python
 >>> from imgur_scraper import get_viral_posts_from
-
 >>> for post in get_viral_posts_from(date="12/31/14"):
 >>>     print(post['title'])
 The most viral images from Wednesday, Dec 31 2014
