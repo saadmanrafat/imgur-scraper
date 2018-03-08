@@ -15,3 +15,6 @@ Get Imgur's viral posts from a given date. Not authentication required. Implemen
     }
     … prints all 500 of them
     
+# Installation
+
+    
