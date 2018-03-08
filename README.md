@@ -1,5 +1,5 @@
 # imgur-scraper
-Retrieve Imgur's viral posts from a given date. No authentication required. Implemented using their frontend API.
+Retrieve imgur's viral posts from a given date. No authentication required. Implemented using their frontend API.
 
 # Usage
 ```python
