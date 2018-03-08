@@ -12,7 +12,7 @@ Get Imgur's viral posts from a given date. Not authentication required. Implemen
       'title': 'I will never not upvote this', 
       'url': 'https://imgur.com/gallery/rRAayxk', 
       'points': '12,481', 
-      'tags': 'funny,spam,mmo,needs more jpeg,double negative,rep ost,reposttimesamillion
+      'tags': 'funny,spam,mmo,needs more jpeg,double negative,repost,reposttimesamillion
     }
     … prints all 500 of them
     
