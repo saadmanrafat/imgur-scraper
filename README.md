@@ -11,7 +11,7 @@ The most viral images from Wednesday, Dec 31 2014
   'title': 'I will never not upvote this', 
   'url': 'https://imgur.com/gallery/rRAayxk', 
   'points': '12,481', 
-  'tags': 'funny,spam,mmo,needsmorejpeg,double negative,repost,reposttimesamillion
+  'tags': 'funny,spam,mmo,needsmorejpeg,doublenegative,repost,reposttimesamillion
 }
 … prints all 500 of them
 ```
