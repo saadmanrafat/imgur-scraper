@@ -2,6 +2,10 @@
 Get Imgur's viral posts from a given date. Not authentication required. Implemented using their frontend API.
 
 # Usage
+```python
+s = "Python syntax highlighting"
+print s
+```
 
     >>> from imgur_scraper import get_viral_posts_from
     
