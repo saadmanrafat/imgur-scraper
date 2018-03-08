@@ -1,29 +1,28 @@
-from datetime import datetime, timedelta
+from utils import Convert
 from requests_html import HTMLSession
 
 url = "https://imgur.com/gallery/hot/viral/page/{0}/hit?scrolled&set={1}"
 host = "https://imgur.com"
-date_format = "%d/%m/%y"
 
 
 def get_viral_posts_from(date):
-    """Returns the viral posts of the day
+
+    """Returns viral posts of a given date
 
     :param date: Viral posts from date, where the date is a string.
     """
-    try:
-        assert datetime.today() > datetime.strptime(date, date_format)
-    except AssertionError:
-        raise ValueError('Invalid date')
 
-    days_ago = datetime.today() - datetime.strptime(date, date_format) - timedelta(days=1)
+    days_ago = Convert(date).to_days_ago()
     counter = 0
-    r = HTMLSession().get(url.format(days_ago.days, counter))
+    
+    r = HTMLSession().get(url.format(days_ago, counter))
 
-    print(days_ago.days)
+    print(days_ago)
+    if r.html.find('.images-header-main'):
+        print(' '.join(r.html.find('.images-header-main')[0].full_text.split()))
 
     while not r.html.find('#nomore'):
-        print(' '.join(r.html.find('.images-header-main')[0].full_text.split()))
+
         for entries in r.html.find('.post'):
             yield {
                 'title': entries.find('.hover > p')[0].full_text,
@@ -31,6 +30,5 @@ def get_viral_posts_from(date):
                 'points': entries.find('.point-info-points > span')[0].full_text,
                 'tags': entries.find('.point-info')[0].attrs['data-gallery-tags'].rstrip()
             }
-            
         counter += 1
-        r = HTMLSession().get(url.format(days_ago.days, counter))
+        r = HTMLSession().get(url.format(days_ago, counter))
