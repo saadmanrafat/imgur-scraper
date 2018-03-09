@@ -6,7 +6,6 @@ host = "https://imgur.com"
 
 
 def get_viral_posts_from(date):
-
     """Returns viral posts of a given date
 
     :param date: Viral posts from date, where the date is a string.
@@ -14,15 +13,13 @@ def get_viral_posts_from(date):
 
     days_ago = Convert(date).to_days_ago()
     counter = 0
-    
+
     r = HTMLSession().get(url.format(days_ago, counter))
 
-    print(days_ago)
     if r.html.find('.images-header-main'):
         print(' '.join(r.html.find('.images-header-main')[0].full_text.split()))
 
     while not r.html.find('#nomore'):
-
         for entries in r.html.find('.post'):
             yield {
                 'title': entries.find('.hover > p')[0].full_text,
