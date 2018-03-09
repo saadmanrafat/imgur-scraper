@@ -6,12 +6,12 @@ Retrieve Imgur's viral posts from a given date. No authentication required. Impl
 >>> from imgur_scraper import get_viral_posts_from
 >>> for post in get_viral_posts_from(date="12/31/14"):
 >>>     print(post)
-The most viral images from Wednesday, Dec 31 2014
+The most viral images from Wednesday, Dec 31 2015
 {
-  'title': 'I will never not upvote this', 
-  'url': 'https://imgur.com/gallery/rRAayxk', 
-  'points': '12,481', 
-  'tags': 'funny,spam,mmo,needsmorejpeg,doublenegative,repost,reposttimesamillion
+    'title': 'Tire went flat overnight and decided to have a little fun', 
+    'url': 'https://imgur.com/gallery/SIQgS', 
+	'points': '15,893', 
+	'tags': 'funny'
 }
 … prints all 500 of them
 ```
