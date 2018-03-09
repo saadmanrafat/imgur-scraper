@@ -8,7 +8,7 @@ Usage
 .. code-block:: pycon
 
 	>>> from imgur_scraper import get_viral_posts_from
-	>>> for post in get_viral_posts_from(date="12/31/15"):
+	>>> for post in get_viral_posts_from(date="31/12/15"):
 	>>>     print(post)
 	The most viral images from Wednesday, Dec 31 2015
 	{
