@@ -8,7 +8,7 @@ host = "https://imgur.com"
 def get_viral_posts_from(date):
     """Returns viral posts of a given date
 
-    :param date: a string in the format 'dd/mm/yy' i.e '31/12/2015'
+    :param date: a string in the format 'dd/mm/yy' i.e '31/12/15'
     """
 
     days_ago = Convert(date).to_days_ago()
