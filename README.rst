@@ -1,4 +1,4 @@
-imgur-scraper
+Imgur Scraper
 =======================================
 Retrieve Imgur's viral posts from a given date. No authentication required. Implemented using their frontend API.
 
