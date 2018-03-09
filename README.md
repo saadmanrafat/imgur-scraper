@@ -17,5 +17,4 @@ The most viral images from Wednesday, Dec 31 2015
 ```
 
 # Installation
-
-    
+	pip install imgur-scraper
