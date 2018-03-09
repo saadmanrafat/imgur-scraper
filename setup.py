@@ -8,7 +8,7 @@ from setuptools import find_packages, setup, Command
 
 # Package meta-data.
 NAME = 'imgur_scraper'
-DESCRIPTION = "Retrieve Imgur's viral posts from a given date (it goes back years) without authentication."
+DESCRIPTION = "Retrieve Imgur's viral posts from a given date (it goes back years)."
 URL = 'https://github.com/saadmanrafat/imgur-scraper'
 EMAIL = 'saadmanhere@gmail.com'
 
