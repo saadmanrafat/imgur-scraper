@@ -1,6 +1,6 @@
 env
 __pycache__
-idea/
+.idea/
 build/
 dist/
-imgur_scrapper.egg-info/
+imgur_scraper.egg-info/
