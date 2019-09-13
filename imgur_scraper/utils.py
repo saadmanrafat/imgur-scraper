@@ -28,10 +28,6 @@ class Convert:
             raise ValueError("Invalid Date")
         start_time = (datetime.utcnow() - start_time).days
         end_time = (datetime.utcnow() - end_time).days
-        print(start_time)
-        print(end_time)
-
         if start_time < end_time:
             raise ValueError("Invalid Date Range")
-
         return start_time, end_time
