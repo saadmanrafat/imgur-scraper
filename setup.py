@@ -14,11 +14,11 @@ EMAIL = 'saadmanhere@gmail.com'
 
 AUTHOR = 'Saadman Rafat'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.1.2'
+VERSION = '0.1.5'
 
-# What packages are required for this module to be executed?
+
 REQUIRED = [
-    'requests-html'
+    "requests", "requests-html"
 ]
 
 # The rest you shouldn't have to touch too much :)
@@ -30,7 +30,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.rst' is present in your MANIFEST.in file!
-with io.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = '\n' + f.read()
 
 # Load the package's __version__.py module as a dictionary.
@@ -90,12 +90,7 @@ setup(
     python_requires=REQUIRES_PYTHON,
     url=URL,
     packages=find_packages(exclude=('tests',)),
-    # If your package is a single module, use this instead of 'packages':
-    # py_modules=['mypackage'],
-
-    # entry_points={
-    #     'console_scripts': ['mycli=mymodule:cli'],
-    # },
+    entry_points={"console_scripts": ["imgur-scraper=imgur_scraper.imgur_scraper:main"]},
     install_requires=REQUIRED,
     include_package_data=True,
     license='MIT',
@@ -109,7 +104,6 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
-    # $ setup.py publish support.
     cmdclass={
         'upload': UploadCommand,
     },
