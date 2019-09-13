@@ -4,7 +4,7 @@
 Retrieve Imgur's viral posts from a specific date. No authentication required. Implemented using their frontend API.
 
 # Usage
-```shell
+```
 $ imgur-scraper [COMMAND]
 
 Retrieve Imgur's Viral Posts
