@@ -4,7 +4,7 @@
 Retrieve Imgur's viral posts from a specific date. No authentication required. Implemented using their frontend API.
 
 # Usage
-[![asciicast](https://asciinema.org/a/oPqEort4iuoSElzKUSAMBpigs.svg)](https://asciinema.org/a/oPqEort4iuoSElzKUSAMBpigs)
+[![asciicast](https://asciinema.org/a/268413.svg)](https://asciinema.org/a/268413)
 ```
 $ imgur-scraper [COMMAND]
 
