@@ -99,9 +99,9 @@ def main():
                 writer.writerows(get_viral_posts_from(start_date, end_date))
         except FileExistsError:
             print("File Already Exists.")
-
-    for post in get_viral_posts_from(start_date, end_date):
-        print(post)
+    else:
+        for post in get_viral_posts_from(start_date, end_date):
+            print(post)
 
 
 if __name__ == "__main__":
