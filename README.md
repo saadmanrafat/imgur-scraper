@@ -1,5 +1,5 @@
 # Imgur Scraper
-[![Downloads](https://pepy.tech/badge/imgur-scraper)](https://pepy.tech/project/imgur-scraper) 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/imgur-scraper) [![Downloads](https://pepy.tech/badge/imgur-scraper)](https://pepy.tech/project/imgur-scraper) ![PyPI - License](https://img.shields.io/pypi/l/imgur-scraper)
 
 Retrieve Imgur's viral posts from a specific date. No authentication required. Implemented using their frontend API.
 
@@ -27,4 +27,3 @@ COMMAND:
 $ pip install imgur-scraper
 ```
 
-Python 3.6 is required
