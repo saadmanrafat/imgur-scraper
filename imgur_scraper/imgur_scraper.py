@@ -35,6 +35,8 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
                     "tags": entries.find(".point-info")[0]
                     .attrs["data-gallery-tags"]
                     .rstrip(),
+                    "type": entries.find(".post-info")[0].full_text.strip().split()[0],
+                    "views": entries.find(".post-info")[0].full_text.strip().split()[2],
                 }
             counter += 1
             r = HTMLSession().get(
@@ -49,13 +51,14 @@ def main():
         description="Retrieve Imgur's Viral Posts",
     )
     parser._optionals.title = "COMMAND"
+    parser.add_argument("--version", action="version", version="%(prog)s 0.1.14")
     parser.add_argument(
         "--date",
         action="store",
         dest="date",
         type=str,
         metavar="",
-        help="Format YYYY-MM-DD (required)",
+        help="date format YYYY-MM-DD (required)",
         required=True,
     )
     parser.add_argument(
@@ -64,14 +67,14 @@ def main():
         dest="end_date",
         type=str,
         metavar="",
-        help="Format YYYY-MM-DD (optional)",
+        help="date format YYYY-MM-DD (optional)",
         default=str(datetime.datetime.utcnow()),
     )
     parser.add_argument(
         "--csv",
         action="store_true",
         dest="to_csv",
-        help="Format to Save Data In (defaults to False)",
+        help="flag to save the data in a csv file (defaults to False)",
     )
     parser.add_argument(
         "--path",
@@ -80,8 +83,8 @@ def main():
         metavar="",
         type=str,
         dest="path_to_save",
-        help="Path where in to the file csv file, i.e. ../somefoler/. \
-            (Defaults to the path from where the script is called.)",
+        help="path to save the csv file in \
+            (defaults to the current working directory)",
     )
     results = parser.parse_args()
     start_date = results.date
@@ -91,14 +94,17 @@ def main():
 
     if to_csv:
         try:
-            path = os.path.join(path, f"{start_date}_to_{end_date}_imgur_data.csv")
-            with open(path, "x", newline="", encoding="utf-8") as csvfile:
-                fieldnames = ["title", "url", "points", "tags"]
+            file_name = os.path.join(path, f"{start_date}_to_{end_date}_imgur_data.csv")
+            with open(file_name, "x", newline="", encoding="utf-8") as csvfile:
+                fieldnames = ["title", "url", "points", "tags", "type", "views"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(get_viral_posts_from(start_date, end_date))
-        except FileExistsError:
-            print("File Already Exists.")
+            print(f"CSV saved in {os.path.abspath(file_name)}")
+        except FileExistsError as f:
+            print(f)
+        except ValueError as v:
+            print(v)
     else:
         for post in get_viral_posts_from(start_date, end_date):
             print(post)
