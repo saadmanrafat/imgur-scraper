@@ -4,8 +4,7 @@
 Retrieve years of imgur.com's data. No authentication required. Implemented using their frontend API.
 
 # Usage
-
-[![asciicast](https://asciinema.org/a/268419.svg)](https://asciinema.org/a/268419)
+[![asciicast](https://asciinema.org/a/268763.svg)](https://asciinema.org/a/268763)
 
 ## Attributes Scraped
 ```javascript
