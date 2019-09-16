@@ -9,7 +9,7 @@ URL = "https://github.com/saadmanrafat/imgur-scraper"
 EMAIL = "saadmanhere@gmail.com"
 AUTHOR = "Saadman Rafat"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.1.13"
+VERSION = "0.1.14"
 REQUIRED = ["requests-html", "requests"]
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
