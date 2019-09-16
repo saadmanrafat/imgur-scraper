@@ -92,7 +92,7 @@ def main():
     if to_csv:
         try:
             path = os.path.join(path, f"{start_date}_to_{end_date}_imgur_data.csv")
-            with open(path, "x", newline="") as csvfile:
+            with open(path, "x", newline="", encoding="utf-8") as csvfile:
                 fieldnames = ["title", "url", "points", "tags"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
