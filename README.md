@@ -6,7 +6,10 @@ Retrieve years of imgur.com's data. No authentication required. Implemented usin
 # Usage
 [![asciicast](https://asciinema.org/a/268763.svg)](https://asciinema.org/a/268763)
 
-## Attributes Scraped
+# Features
+
+Returns close to 500 data points for each date.
+
 ```javascript
 {
   'title': 'I said no, my fiancé said yes. Meet Zeta', 
@@ -17,6 +20,7 @@ Retrieve years of imgur.com's data. No authentication required. Implemented usin
   'views': '4,363'
 }
 ```
+More attributes to be added soon, any suggestions or [feature requests](https://github.com/saadmanrafat/imgur-scraper/issues) are welcome. 
 
 # Installation
 ```
