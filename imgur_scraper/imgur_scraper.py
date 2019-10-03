@@ -1,6 +1,7 @@
 import argparse
 import csv
 import datetime
+from datetime import date, timedelta
 import json
 import os
 
@@ -26,6 +27,7 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
                 "Grabbing "
                 + " ".join(r.html.find(".images-header-main")[0].full_text.split())
             )
+        date_img = date.today() - timedelta(days=days_ago)
         while not r.html.find("#nomore"):
             for entries in r.html.find(".post"):
                 yield {
@@ -37,6 +39,7 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
                     .rstrip(),
                     "type": entries.find(".post-info")[0].full_text.strip().split()[0],
                     "views": entries.find(".post-info")[0].full_text.strip().split()[2],
+                    "date": date_img.strftime('%Y-%m-%d')
                 }
             counter += 1
             r = HTMLSession().get(
@@ -96,7 +99,7 @@ def main():
         try:
             file_name = os.path.join(path, f"{start_date}_to_{end_date}_imgur_data.csv")
             with open(file_name, "x", newline="", encoding="utf-8") as csvfile:
-                fieldnames = ["title", "url", "points", "tags", "type", "views"]
+                fieldnames = ["title", "url", "points", "tags", "type", "views", "date"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(get_viral_posts_from(start_date, end_date))
