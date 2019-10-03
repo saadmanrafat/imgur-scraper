@@ -18,7 +18,7 @@ Returns close to 500 data points for each date.
   'tags': 'aww,kitten,kitty', 
   'type': 'image', 
   'views': '4,363'
-  'date': '2017-05-06'
+  'date': '2015-05-06'
 }
 ```
 More attributes to be added soon, any suggestions or [feature requests](https://github.com/saadmanrafat/imgur-scraper/issues) are welcome. 
