@@ -6,7 +6,7 @@ import os
 
 from requests_html import HTMLSession
 
-from utils import Convert
+from .utils import Convert
 
 
 def get_viral_posts_from(start_date: str, end_date: str) -> json:
