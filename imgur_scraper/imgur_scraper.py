@@ -34,12 +34,10 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
                     "title": entries.find(".hover > p")[0].full_text,
                     "url": f"https://imgur.com{entries.find('.image-list-link')[0].attrs['href']}",
                     "points": entries.find(".point-info-points > span")[0].full_text,
-                    "tags": entries.find(".point-info")[0]
-                    .attrs["data-gallery-tags"]
-                    .rstrip(),
+                    "tags": entries.find(".point-info")[0].attrs["data-gallery-tags"].rstrip(),
                     "type": entries.find(".post-info")[0].full_text.strip().split()[0],
                     "views": entries.find(".post-info")[0].full_text.strip().split()[2],
-                    "date": convert.from_days_ago(day_count)
+                    "date": convert.from_days_ago(day_count),
                 }
             counter += 1
             r = HTMLSession().get(
