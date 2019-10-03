@@ -6,7 +6,7 @@ import os
 
 from requests_html import HTMLSession
 
-from .utils import Convert
+from utils import Convert
 
 
 def get_viral_posts_from(start_date: str, end_date: str) -> json:
@@ -15,8 +15,10 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
     :param end_date: date in string
     :return: Imgur's viral content of the specified period in JSON Format
     """
-    start, end = Convert(start_date, end_date).to_days_ago()
+    convert = Convert(start_date, end_date)
+    start, end = convert.to_days_ago()
     for days_ago in reversed(range(end, start + 1)):
+        day_count = 0
         counter = 0
         r = HTMLSession().get(
             f"https://imgur.com/gallery/hot/viral/page/{days_ago}/hit?scrolled&set={counter}"
@@ -37,11 +39,13 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
                     .rstrip(),
                     "type": entries.find(".post-info")[0].full_text.strip().split()[0],
                     "views": entries.find(".post-info")[0].full_text.strip().split()[2],
+                    "date": convert.from_days_ago(day_count)
                 }
             counter += 1
             r = HTMLSession().get(
                 f"https://imgur.com/gallery/hot/viral/page/{days_ago}/hit?scrolled&set={counter}"
             )
+        day_count += 1
 
 
 def main():
@@ -96,7 +100,7 @@ def main():
         try:
             file_name = os.path.join(path, f"{start_date}_to_{end_date}_imgur_data.csv")
             with open(file_name, "x", newline="", encoding="utf-8") as csvfile:
-                fieldnames = ["title", "url", "points", "tags", "type", "views"]
+                fieldnames = ["title", "url", "points", "tags", "type", "views", "date"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(get_viral_posts_from(start_date, end_date))
