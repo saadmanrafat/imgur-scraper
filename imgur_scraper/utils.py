@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 date_format = "%Y-%m-%d"
 
@@ -31,3 +31,8 @@ class Convert:
         if start_time < end_time:
             raise ValueError("Invalid Date Range")
         return start_time, end_time
+
+    def from_days_ago(self, days_ago: int):
+        date_components = list(map(lambda n: int(n), self.start_date.split('-')))
+        date_ref = date(date_components[0], date_components[1], date_components[2]) + timedelta(days = float(days_ago))
+        return date_ref.strftime(date_format)
