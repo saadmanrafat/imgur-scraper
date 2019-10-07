@@ -38,6 +38,8 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
                     "type": entries.find(".post-info")[0].full_text.strip().split()[0],
                     "views": entries.find(".post-info")[0].full_text.strip().split()[2],
                     "date": convert.from_days_ago(day_count),
+                    "likes": entries.find(".arrows > .icon-upvote-outline")[0].attrs["data-up"],
+                    "dislikes": entries.find(".arrows > .icon-downvote-outline")[0].attrs["data-downs"],
                 }
             counter += 1
             r = HTMLSession().get(
