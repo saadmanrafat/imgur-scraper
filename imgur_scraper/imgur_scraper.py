@@ -36,6 +36,20 @@ def get_more_details_of_post(post_url: str) -> json:
     matched = re.search(regex, request.html.find('script')[18].text).group(0)  # 18th script tag has the `item` dict. this is tested on more than 1500 links.
     item = json.loads(matched[5:])
 
+    details['username'] = item['account_url']
+    details['comment_count'] = item['comment_count']
+    details['downs'] = item['downs']
+    details['ups'] = item['ups']
+    details['points'] = item['points']
+    details['score'] = item['score']
+    details['timestamp'] = item['timestamp']
+    details['views'] = item['views']
+    details['favorite_count'] = item['favorite_count']
+    details['hot_datetime'] = item['hot_datetime']
+    details['nsfw'] = item['nsfw']
+    details['platform'] = item['platform']
+    details['virality'] = item['virality']
+
     return details
 
 
