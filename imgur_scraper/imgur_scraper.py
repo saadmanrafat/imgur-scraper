@@ -1,13 +1,59 @@
 import argparse
 import csv
-import datetime
+# import datetime
 import json
 import os
 import re
 
 from requests_html import HTMLSession
 
-from .utils import Convert
+# from .utils import Convert
+################
+
+from datetime import datetime, date, timedelta
+
+date_format = "%Y-%m-%d"
+
+
+class Convert:
+    """Subtracts the given time from the current UTC time
+    and returns the number of days.
+
+    :param:start_date, where date is a string
+    :param:end_date, where date is a string
+    """
+
+    def __init__(self, start_date: str, end_date: str):
+        self.start_date = start_date
+        self.end_date = end_date
+
+    def _user_given_time(self):
+        return (
+            datetime.strptime(self.start_date, date_format),
+            datetime.strptime(self.end_date, date_format),
+        )
+
+    def to_days_ago(self):
+        start_time, end_time = self._user_given_time()
+        time_now = datetime.utcnow()
+        if time_now < start_time or time_now < end_time:
+            raise ValueError("Invalid Date")
+        start_time = (datetime.utcnow() - start_time).days
+        end_time = (datetime.utcnow() - end_time).days
+        if start_time < end_time:
+            raise ValueError("Invalid Date Range")
+        return start_time, end_time
+
+    def from_days_ago(self, days_ago: int):
+        date_components = list(map(lambda n: int(n), self.start_date.split("-")))
+        date_ref = date(
+            date_components[0], date_components[1], date_components[2]
+        ) + timedelta(days=float(days_ago))
+        return date_ref.strftime(date_format)
+###############
+
+
+
 
 
 def get_more_details_of_post(post_url: str) -> json:
@@ -15,40 +61,34 @@ def get_more_details_of_post(post_url: str) -> json:
     :param post_url: the url of an imgur post
     :return: Details like Virality-score, username etc in JSON format
     """
-    details = dict()
 
-    request = HTMLSession().get(post_url)
-
-    # meta_data = request.html.find('div.post-title-meta')[0]
-    # details["username"] = meta_data.find('a')[0].attrs['href'].split('/')[-1]
-    #
-    # details["platform"] = 'Unknown' if len([i for i in meta_data.find('a')]) < 2 else None
-    # if details["platform"] is None:
-    #     meta_data_dict = json.loads(meta_data.find('a')[-1].attrs['data-jafo'].replace('@@', '\"'))
-    #     platform = "iOS" if "ios" in dict_string.lower() else "Android"
-
-    if len(request.html.find('script')) < 18:  # some times, request isn't properly made, hence call again.
+    try:
         request = HTMLSession().get(post_url)
 
-        # handle when its not there at all
+        if len(request.html.find('script')) < 18:  # some times, request isn't properly made, hence call again.
+            request = HTMLSession().get(post_url)
 
-    regex = 'item: ({.+} )'  # regex to isolate the `item` dict.
-    matched = re.search(regex, request.html.find('script')[18].text).group(0)  # 18th script tag has the `item` dict. this is tested on more than 1500 links.
-    item = json.loads(matched[5:])
+            # handle when its not there at all
 
-    details['username'] = item['account_url']
-    details['comment_count'] = item['comment_count']
-    details['downs'] = item['downs']
-    details['ups'] = item['ups']
-    details['points'] = item['points']
-    details['score'] = item['score']
-    details['timestamp'] = item['timestamp']
-    details['views'] = item['views']
-    details['favorite_count'] = item['favorite_count']
-    details['hot_datetime'] = item['hot_datetime']
-    details['nsfw'] = item['nsfw']
-    details['platform'] = item['platform']
-    details['virality'] = item['virality']
+        regex = 'item: ({.+} )'  # regex to isolate the `item` dict.
+        matched = re.search(regex, request.html.find('script')[18].text).group(0)  # 18th script tag has the `item` dict. this is tested on more than 1500 links.
+        item = json.loads(matched[5:])
+
+        details['username'] = item['account_url']
+        details['comment_count'] = item['comment_count']
+        details['downs'] = item['downs']
+        details['ups'] = item['ups']
+        details['points'] = item['points']
+        details['score'] = item['score']
+        details['timestamp'] = item['timestamp']
+        details['views'] = item['views']
+        details['favorite_count'] = item['favorite_count']
+        details['hot_datetime'] = item['hot_datetime']
+        details['nsfw'] = item['nsfw']
+        details['platform'] = item['platform']
+        details['virality'] = item['virality']
+    except Exception as e:
+        print(e)
 
     return details
 
@@ -75,10 +115,27 @@ def get_viral_posts_from(start_date: str, end_date: str, provide_details: bool) 
             )
         while not r.html.find("#nomore"):
             for entries in r.html.find(".post"):
+                global details
+
+                details = {
+                    "username": None,
+                    "comment_count": None,
+                    "downs": None,
+                    "ups": None,
+                    "points": None,
+                    "score": None,
+                    "timestamp": None,
+                    "views": None,
+                    "favorite_count": None,
+                    "hot_datetime": None,
+                    "nsfw": None,
+                    "platform": None,
+                    "virality": None
+                }
                 if provide_details:
                     details = get_more_details_of_post(f"https://imgur.com{entries.find('.image-list-link')[0].attrs['href']}")
 
-                yield {
+                yield dict(details, **{
                     "title": entries.find(".hover > p")[0].full_text,
                     "url": f"https://imgur.com{entries.find('.image-list-link')[0].attrs['href']}",
                     "points": entries.find(".point-info-points > span")[0].full_text,
@@ -86,7 +143,7 @@ def get_viral_posts_from(start_date: str, end_date: str, provide_details: bool) 
                     "type": entries.find(".post-info")[0].full_text.strip().split()[0],
                     "views": entries.find(".post-info")[0].full_text.strip().split()[2],
                     "date": convert.from_days_ago(day_count),
-                }
+                })
             counter += 1
             r = HTMLSession().get(
                 f"https://imgur.com/gallery/hot/viral/page/{days_ago}/hit?scrolled&set={counter}"
@@ -118,7 +175,7 @@ def main():
         type=str,
         metavar="",
         help="date format YYYY-MM-DD (optional)",
-        default=str(datetime.datetime.utcnow()),
+        default=str(datetime.utcnow()),
     )
     parser.add_argument(
         "--csv",
@@ -154,7 +211,7 @@ def main():
         try:
             file_name = os.path.join(path, f"{start_date}_to_{end_date}_imgur_data.csv")
             with open(file_name, "x", newline="", encoding="utf-8") as csvfile:
-                fieldnames = ["title", "url", "points", "tags", "type", "views", "date"]
+                fieldnames = ["title", "url", "points", "tags", "type", "views", "date", "username", "comment_count", "downs", "ups", "points", "score", "timestamp", "views", "favorite_count", "hot_datetime", "nsfw", "platform", "virality"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(get_viral_posts_from(start_date, end_date, provide_details))
