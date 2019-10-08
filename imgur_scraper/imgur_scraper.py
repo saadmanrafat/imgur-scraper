@@ -9,10 +9,11 @@ from requests_html import HTMLSession
 from .utils import Convert
 
 
-def get_viral_posts_from(start_date: str, end_date: str) -> json:
+def get_viral_posts_from(start_date: str, end_date: str, provide_details: bool) -> json:
     """
     :param start_date: date in string
     :param end_date: date in string
+    :param provide_details: boolean value to get more details of a post
     :return: Imgur's viral content of the specified period in JSON Format
     """
     convert = Convert(start_date, end_date)
@@ -30,6 +31,9 @@ def get_viral_posts_from(start_date: str, end_date: str) -> json:
             )
         while not r.html.find("#nomore"):
             for entries in r.html.find(".post"):
+                if provide_details:
+                    details = get_more_details_of_post(f"https://imgur.com{entries.find('.image-list-link')[0].attrs['href']}")
+
                 yield {
                     "title": entries.find(".hover > p")[0].full_text,
                     "url": f"https://imgur.com{entries.find('.image-list-link')[0].attrs['href']}",
@@ -88,11 +92,19 @@ def main():
         help="path to save the csv file in \
             (defaults to the current working directory)",
     )
+    parser.add_argument(
+        "--details",
+        action="store_true",
+        dest="provide_details",
+        help="flag to get more details about a post, like: username, virality etc"
+        # TODO: describe better
+    )
     results = parser.parse_args()
     start_date = results.date
     end_date = results.end_date.split(" ")[0]
     path = results.path_to_save
     to_csv = results.to_csv
+    provide_details = results.provide_details
 
     if to_csv:
         try:
@@ -101,14 +113,14 @@ def main():
                 fieldnames = ["title", "url", "points", "tags", "type", "views", "date"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
-                writer.writerows(get_viral_posts_from(start_date, end_date))
+                writer.writerows(get_viral_posts_from(start_date, end_date, provide_details))
             print(f"CSV saved in {os.path.abspath(file_name)}")
         except FileExistsError as f:
             print(f)
         except ValueError as v:
             print(v)
     else:
-        for post in get_viral_posts_from(start_date, end_date):
+        for post in get_viral_posts_from(start_date, end_date, provide_details):
             print(post)
 
 
