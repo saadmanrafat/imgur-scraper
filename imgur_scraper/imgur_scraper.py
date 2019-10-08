@@ -3,10 +3,40 @@ import csv
 import datetime
 import json
 import os
+import re
 
 from requests_html import HTMLSession
 
 from .utils import Convert
+
+
+def get_more_details_of_post(post_url: str) -> json:
+    """
+    :param post_url: the url of an imgur post
+    :return: Details like Virality-score, username etc in JSON format
+    """
+    details = dict()
+
+    request = HTMLSession().get(post_url)
+
+    # meta_data = request.html.find('div.post-title-meta')[0]
+    # details["username"] = meta_data.find('a')[0].attrs['href'].split('/')[-1]
+    #
+    # details["platform"] = 'Unknown' if len([i for i in meta_data.find('a')]) < 2 else None
+    # if details["platform"] is None:
+    #     meta_data_dict = json.loads(meta_data.find('a')[-1].attrs['data-jafo'].replace('@@', '\"'))
+    #     platform = "iOS" if "ios" in dict_string.lower() else "Android"
+
+    if len(request.html.find('script')) < 18:  # some times, request isn't properly made, hence call again.
+        request = HTMLSession().get(post_url)
+
+        # handle when its not there at all
+
+    regex = 'item: ({.+} )'  # regex to isolate the `item` dict.
+    matched = re.search(regex, request.html.find('script')[18].text).group(0)  # 18th script tag has the `item` dict. this is tested on more than 1500 links.
+    item = json.loads(matched[5:])
+
+    return details
 
 
 def get_viral_posts_from(start_date: str, end_date: str, provide_details: bool) -> json:
