@@ -1,57 +1,13 @@
 import argparse
 import csv
-# import datetime
+import datetime
 import json
 import os
 import re
 
 from requests_html import HTMLSession
 
-# from .utils import Convert
-################
-
-from datetime import datetime, date, timedelta
-
-date_format = "%Y-%m-%d"
-
-
-class Convert:
-    """Subtracts the given time from the current UTC time
-    and returns the number of days.
-
-    :param:start_date, where date is a string
-    :param:end_date, where date is a string
-    """
-
-    def __init__(self, start_date: str, end_date: str):
-        self.start_date = start_date
-        self.end_date = end_date
-
-    def _user_given_time(self):
-        return (
-            datetime.strptime(self.start_date, date_format),
-            datetime.strptime(self.end_date, date_format),
-        )
-
-    def to_days_ago(self):
-        start_time, end_time = self._user_given_time()
-        time_now = datetime.utcnow()
-        if time_now < start_time or time_now < end_time:
-            raise ValueError("Invalid Date")
-        start_time = (datetime.utcnow() - start_time).days
-        end_time = (datetime.utcnow() - end_time).days
-        if start_time < end_time:
-            raise ValueError("Invalid Date Range")
-        return start_time, end_time
-
-    def from_days_ago(self, days_ago: int):
-        date_components = list(
-            map(lambda n: int(n), self.start_date.split("-")))
-        date_ref = date(
-            date_components[0], date_components[1], date_components[2]
-        ) + timedelta(days=float(days_ago))
-        return date_ref.strftime(date_format)
-###############
+from .utils import Convert
 
 
 def get_more_details_of_post(post_url: str) -> json:
@@ -67,6 +23,7 @@ def get_more_details_of_post(post_url: str) -> json:
         if len(request.html.find('script')) < 18:
             request = HTMLSession().get(post_url)
 
+            return details
             # handle when its not there at all
 
         regex = 'item: ({.+} )'  # regex to isolate the `item` dict.
