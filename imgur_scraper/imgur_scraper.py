@@ -121,7 +121,7 @@ def main():
         type=str,
         metavar="",
         help="date format YYYY-MM-DD (optional)",
-        default=str(datetime.utcnow()),
+        default=str(datetime.datetime.utcnow()),
     )
     parser.add_argument(
         "--csv",
