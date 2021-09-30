@@ -47,6 +47,6 @@ $ pip install imgur-scraper
 # Support The Project
 
 ```markdown
-bitcoin: bc1qhlwkhjplnrhzpy8lu034a0nkccldnlr6wygvrk0nyjld0y8yv7eskp78j4
+bitcoin: bc1q44nlg0rvp2w4vf50cf40kgg2cvtgyhz7mlvhm0cnlqjg7cd5dh9szsaw8p
 ```
 
