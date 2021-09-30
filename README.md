@@ -28,3 +28,8 @@ More attributes to be added soon, any suggestions or [feature requests](https://
 $ pip install imgur-scraper
 ```
 
+# Support The Project
+
+```markdown
+bitcoin: bc1qhlwkhjplnrhzpy8lu034a0nkccldnlr6wygvrk0nyjld0y8yv7eskp78j4
+```
