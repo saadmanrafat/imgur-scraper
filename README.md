@@ -21,6 +21,22 @@ Returns close to 500 data points for each date.
   'date': '2015-05-06'
 }
 ```
+### New Features
+```
+- Username
+- Comment_Count
+- Downs 
+- Ups 
+- Points
+- Score
+- Timestamp
+- Views
+- Favorite_Count
+- Hot_datetime
+- NSFW
+- Platform
+- Virality
+```
 More attributes to be added soon, any suggestions or [feature requests](https://github.com/saadmanrafat/imgur-scraper/issues) are welcome. 
 
 # Installation
@@ -33,3 +49,4 @@ $ pip install imgur-scraper
 ```markdown
 bitcoin: bc1qhlwkhjplnrhzpy8lu034a0nkccldnlr6wygvrk0nyjld0y8yv7eskp78j4
 ```
+
